@@ -1,7 +1,7 @@
 const  jwt = require('jsonwebtoken');
 const createError= require('http-errors');
 const {errorResponse,successResponse}=require("/data/data/com.termux/files/home/backend-express-village-project/serviceProvider/errorAndSuccessHandle.js");
-const {accessTokenKey,refreshTokenKey}=require('/data/data/com.termux/files/home/backend-express-village-project/secret.js');
+const {server_port,db_url,accessTokenKey,refreshTokenKey,smtpPassword,smtpUser,clientUrl}=require('/data/data/com.termux/files/home/backend-express-village-project/secret.js');
 const activeUserController=async(req,res,next)=>{
   try{
   const token=req.body.token;

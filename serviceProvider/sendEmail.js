@@ -1,4 +1,4 @@
-const {smtpPassword,smtpUser}=require('/data/data/com.termux/files/home/backend-express-village-project/secret.js');
+const {server_port,db_url,accessTokenKey,refreshTokenKey,smtpPassword,smtpUser,clientUrl}=require('/data/data/com.termux/files/home/backend-express-village-project/secret.js');
 const nodemailer = require("nodemailer");
 const createErtor=require('http-errors');
 const transporter = nodemailer.createTransport({

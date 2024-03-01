@@ -1,7 +1,7 @@
 //this file create rest api...post,get,put,delete 
 const  jwt = require('jsonwebtoken');
 const {errorResponse,successResponse}=require("/data/data/com.termux/files/home/backend-express-village-project/serviceProvider/errorAndSuccessHandle.js");
-const {clientUrl,accessTokenKey,refreshTokenKey}=require('/data/data/com.termux/files/home/backend-express-village-project/secret.js');
+const {server_port,db_url,accessTokenKey,refreshTokenKey,smtpPassword,smtpUser,clientUrl}=require('/data/data/com.termux/files/home/backend-express-village-project/secret.js');
 const emailWithNodeMailer=require('/data/data/com.termux/files/home/backend-express-village-project/serviceProvider/sendEmail.js');
 const {makeTokens}=require('/data/data/com.termux/files/home/backend-express-village-project/serviceProvider/makeToken.js')
 const {Villagemodel}=require('../models/villageModel.js');

@@ -1,6 +1,5 @@
 var jwt = require('jsonwebtoken');
-const {clientUrl,accessTokenKey,refreshTokenKey}=require('/data/data/com.termux/files/home/backend-express-village-project/secret.js');
-const jwtAccessKey=require('/data/data/com.termux/files/home/mongodbAllClass/searchPagination/secret.js');
+const {server_port,db_url,accessTokenKey,refreshTokenKey,smtpPassword,smtpUser,clientUrl}=require('/data/data/com.termux/files/home/backend-express-village-project/secret.js');
 const makeTokens= (payload, tokenKey, {expireIn})=>{
   const token = jwt.sign(payload,accessTokenKey, expireIn);
   return token;
