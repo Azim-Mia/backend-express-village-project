@@ -1,5 +1,5 @@
 require('dotenv').config();
-const server_port= process.env.PORT || 5000;
+const server_port= process.env.SERVER_PORT || 5000;
 const db_url=process.env.DB_URL || 'mongodb://127.0.0.1:27017/villageProject';
 const accessTokenKey=process.env.ACCESS_TOKEN_KEY
 const refreshTokenKey=process.env.REFRESH_TOKEN_KEY
