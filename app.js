@@ -6,6 +6,7 @@ const bodyParser=require('body-parser');
 const cors= require('cors');
 const cookieParser = require('cookie-parser');
 const createError=require('http-errors');
+const morgan=require('morgan');
 // express use app veriable
 const app = express();
 // parse application/x-www-form-urlencoded
@@ -15,6 +16,13 @@ app.use(bodyParser.json())
 // cookie create package use generate cookie
 app.use(cookieParser());
 app.use(express.static(__dirname + "/backend-express-village-project/src"))
+app.use(cors({
+  origin:["http://localhost:3000"],
+methot:["GET","POST"],
+credentials:true,
+  
+}));
+app.use(morgan());
 //custom api router use
 app.use('/',restApiRouter);
 //all error handle position

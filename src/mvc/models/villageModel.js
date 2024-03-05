@@ -72,6 +72,14 @@ image:{
   type:String,
     required:[true, "name is not Empty"],
 },
-})
+  isAdmin:{
+   type:Boolean,
+   default:false,
+  },
+  isBanned:{
+    type:Boolean,
+    default:false,
+  },
+},{timestams:true});
 const Villagemodel= new model("villageModelDatabase", villageScheme);
 module.exports= {Villagemodel}
