@@ -55,4 +55,61 @@ successResponse(res,{
   payload:{userId}
 })
 }
-module.exports={createUserController,findAllUser,findSingleUser};
+const deleteUser=async(req,res,next)=>{
+  try{
+    const {id}=req.body;
+    const userId=await Villagemodel.findByIdAndDelete({_id:id, isAdmin:false})
+    if(!userId) {
+    res.json({
+      success:false,
+      message:"not Found User id",
+    })
+  return;
+  }
+  }catch(error){
+    if(error instanceof mongoose.Error){
+   next(createError(404,'Invalid search user Id')) 
+   return
+  }
+  next(error);
+  }
+  successResponse(res,{
+    success:true,
+    message:"User delete successFull"
+  })
+}
+const updateUser=async(req,res,next)=>{
+  try{
+const {id}=req.params;
+const userId= await Villagemodel.findOne({_id:id});
+    if(!userId) {
+    res.json({
+      success:false,
+      message:"not Found User id",
+    })
+  return;
+  }
+  const updateOptions= { new:true, runValidators:true, context:'query'};
+  const {name}=req.body;
+  const image=req.file.image
+  let updates={};
+  for(let key in req.body){
+  if(['name','address','image'].includes(key)){
+      updates[key]=req.body[key];
+    }
+}
+    const result =await Villagemodel.findByIdAndUpdate(userId,updates,updateOptions)
+    if(!result){
+      res.json({success:false, message:"user not Update"})
+    }
+    return successResponse(res,{
+      statusCode:201,
+      success:true,
+      message:"successfull",
+      payload:{result},
+    })
+}catch(error){
+  console.error('Error:', error.message)  
+}
+}
+module.exports={createUserController,findAllUser,findSingleUser,deleteUser,updateUser};
