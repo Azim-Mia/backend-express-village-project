@@ -1,3 +1,4 @@
+const uploadImageRouter =require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/routers/uploadImage.js');
 //custom require needs file
 const {restApiRouter}=require('./src/mvc/routers/restApiRouter.js')
 //npm package install add require
@@ -17,14 +18,14 @@ app.use(bodyParser.json())
 app.use(cookieParser());
 app.use(express.static(__dirname + "/backend-express-village-project/src"))
 app.use(cors({
-  origin:["http://localhost:3000"],
+  origin:["http://localhost:3000","http://localhost:8158"],
 methot:["GET","POST"],
 credentials:true,
-  
 }));
 app.use(morgan());
 //custom api router use
 app.use('/',restApiRouter);
+app.use('/', uploadImageRouter)
 //all error handle position
 app.use((req,res,next)=>{
   next(createError(404, "Route is not found"))

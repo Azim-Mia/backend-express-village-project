@@ -6,4 +6,5 @@ const refreshTokenKey=process.env.REFRESH_TOKEN_KEY || "mangoFirut2";
 const smtpUser=process.env.SMTP_USERNAME || '';
 const smtpPassword= process.env.SMTP_PASSWORD || '';
 const clientUrl=process.env.CLIENT_URL || '';
-module.exports={server_port,db_url,accessTokenKey,refreshTokenKey,smtpPassword,smtpUser,clientUrl};
+const storeImage="/data/data/com.termux/files/home/backend-express-village-project/public/images";
+module.exports={server_port,db_url,accessTokenKey,refreshTokenKey,smtpPassword,smtpUser,clientUrl,storeImage};
