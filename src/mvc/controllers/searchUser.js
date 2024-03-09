@@ -1,4 +1,3 @@
-const  jwt = require('jsonwebtoken');
 const mongoose=require('mongoose');
 const createError= require('http-errors');
 const {Villagemodel}=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/models/villageModel.js');
