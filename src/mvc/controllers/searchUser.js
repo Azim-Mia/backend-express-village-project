@@ -1,11 +1,8 @@
 const  jwt = require('jsonwebtoken');
 const mongoose=require('mongoose');
 const createError= require('http-errors');
-const {makeAccessTokensService,makeRefreshTokensService}=require('/data/data/com.termux/files/home/backend-express-village-project/serviceProvider/makeToken.js');
-const {createAccessTokenCookie}=require('/data/data/com.termux/files/home/backend-express-village-project/serviceProvider/makeCookie.js');
 const {Villagemodel}=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/models/villageModel.js');
 const {errorResponse,successResponse}=require("/data/data/com.termux/files/home/backend-express-village-project/serviceProvider/errorAndSuccessHandle.js");
-const {server_port,db_url,accessTokenKey,refreshTokenKey,smtpPassword,smtpUser,clientUrl}=require('/data/data/com.termux/files/home/backend-express-village-project/secret.js');
 const searchUser=async(req,res,next)=>{
   try{
 const search=req.query.search || "";
