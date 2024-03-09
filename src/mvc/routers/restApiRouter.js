@@ -3,6 +3,7 @@ const {validatorUserRegistation}=require('/data/data/com.termux/files/home/backe
 const {runValidation}=require('/data/data/com.termux/files/home/backend-express-village-project/middleware/runValidation.js');
 //this file create rest api...post,get,put,delete 
 const {createUserController,findAllUser,findSingleUser,deleteUser,updateUser}=require('../controllers/restApiController.js')
+const {searchUser}=require('../controllers/searchUser.js')
 const {activeUserController}=require('../controllers/activeUserController.js')
 const express=require('express')
 const restApiRouter=express.Router();
@@ -12,4 +13,5 @@ restApiRouter.post('/create',validatorUserRegistation,runValidation,createUserCo
 restApiRouter.post('/active/:token',upload.single("image"),activeUserController );
 restApiRouter.delete('/delete',deleteUser)
 restApiRouter.put('/update/:id',upload.single("image"),updateUser)
+restApiRouter.get('/search',searchUser);
 module.exports={restApiRouter};
