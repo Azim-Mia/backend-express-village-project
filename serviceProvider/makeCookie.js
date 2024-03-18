@@ -1,5 +1,5 @@
 const createAccessTokenCookie=(res, accessToken)=>{
-  res.cookie(res,accessToken,{
+  res.cookie('accessToken',accessToken,{
     maxAge:16*60*1000,
     httpOnly:true,
    // secure:true,

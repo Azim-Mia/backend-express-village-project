@@ -90,7 +90,7 @@ const userId= await Villagemodel.findOne({_id:id});
   return;
   }
   const updateOptions= { new:true, runValidators:true, context:'query'};
-  const {name}=req.body;
+  const {name,address}=req.body;
   const image=req.file.image
   let updates={};
   for(let key in req.body){

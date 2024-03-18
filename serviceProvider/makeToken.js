@@ -5,7 +5,7 @@ const makeAccessTokensService= (payload, tokenKey, {expireIn})=>{
   return token;
 }
 const makeRefreshTokensService= (payload, tokenKey, {expireIn})=>{
-  const token = jwt.sign(payload,accessTokenKey, expireIn);
+  const token = jwt.sign(payload,refreshTokenKey, expireIn);
   return token;
 }
 module.exports={makeAccessTokensService,makeRefreshTokensService};

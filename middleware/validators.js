@@ -24,14 +24,14 @@ body('password')
 .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]+$/
   )
   .withMessage('password mustbe uppercase lowercase and symble'),
-  body('phone')
+  /*body('phone')
   .trim()
   .notEmpty()
   .withMessage('Phone is required.Enter your phone number')
   .isLength({min: 11, max:13})
   .withMessage('phone number min charater 11, max charater 13')
   .matches(/^(?:-(?:[1-9](?:\d{0,2}(?:,\d{3})+|\d*))|(?:0|(?:[1-9](?:\d{0,2}(?:,\d{3})+|\d*))))(?:.\d+|)$/)
-  .withMessage('Valid phone number'),
+  .withMessage('Valid phone number'),*/
 body('image')
 /*.custom((value,{req})=>{
   if(!req.file || !req.file.buffer){
