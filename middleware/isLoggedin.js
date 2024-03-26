@@ -1,12 +1,11 @@
+const {errorResponse,successResponse}=require("/data/data/com.termux/files/home/backend-express-village-project/serviceProvider/errorAndSuccessHandle.js");
 const isLoggedin=(req,res,next)=>{
-  const refreshToken=req.cookies.refreshToken;
   const accessToken=req.cookies.accessToken;
-  if(accessToken && refreshToken){
-    res.json({success:true, message:"successFull Login"})
-    return;
+  if(!accessToken){
+  res.json({success:false,message:"login now"})
+  next()
   }else{
-    res.json({success:false, message:"Please login now"})
-    
+    res.json({success:true,message:"login successfull"})
   }
   next();
 }

@@ -76,7 +76,7 @@ image:{
    type:Boolean,
    default:false,
   },
-  isBanned:{
+  isBaned:{
     type:Boolean,
     default:false,
   },

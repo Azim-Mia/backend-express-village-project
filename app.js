@@ -1,7 +1,9 @@
-const uploadImageRouter =require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/routers/uploadImage.js');
+const uploadImageRouter =require('./src/mvc/routers/uploadImage.js');
 //custom require needs file
+const productRouter=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/productRouters/productRouter.js')
 const {restApiRouter}=require('./src/mvc/routers/restApiRouter.js')
 const authRouter=require('./src/mvc/routers/authRouter.js')
+const categoryRouter=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/categoriRouters/categoriRouter.js');
 //npm package install add require
 const express=require("express")
 const bodyParser=require('body-parser');
@@ -29,6 +31,8 @@ app.use(morgan());
 app.use('/',restApiRouter);
 app.use('/', uploadImageRouter)
 app.use('/',authRouter);
+app.use('/product',productRouter)
+app.use('/category',categoryRouter)
 //all error handle position
 app.use((req,res,next)=>{
   next(createError(404, "Route is not found"))

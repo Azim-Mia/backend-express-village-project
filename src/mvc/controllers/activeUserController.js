@@ -19,7 +19,7 @@ if(!image){
   res.json({success:false,message:"not found image"})
 }else{
   const response = await cloudinary.uploader.upload(image,{
-    folder:'ecommerce',
+    folder:'ecommerce_azim',
   },function(result,err){
     if(result){
       console.log(result)

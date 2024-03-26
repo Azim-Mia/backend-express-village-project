@@ -1,5 +1,9 @@
 //this file create rest api...post,get,put,delete 
+require('dotenv').config();
 const  jwt = require('jsonwebtoken');
+const createError=require('http-errors');
+const allowed_file_type =process.env.ALLOWED_FILE_TYPE || ["png", "jpeg","pdf"];
+const fs=require('fs');
 const {errorResponse,successResponse}=require("/data/data/com.termux/files/home/backend-express-village-project/serviceProvider/errorAndSuccessHandle.js");
 const {server_port,db_url,accessTokenKey,refreshTokenKey,smtpPassword,smtpUser,clientUrl}=require('/data/data/com.termux/files/home/backend-express-village-project/secret.js');
 const emailWithNodeMailer=require('/data/data/com.termux/files/home/backend-express-village-project/serviceProvider/sendEmail.js');
@@ -57,19 +61,17 @@ successResponse(res,{
 }
 const deleteUser=async(req,res,next)=>{
   try{
-    const {id}=req.body;
-    const userId=await Villagemodel.findByIdAndDelete({_id:id, isAdmin:false})
+    const {id}=req.params;
+   const userId=await Villagemodel.findByIdAndDelete({_id:id, isAdmin:false})
     if(!userId) {
     res.json({
       success:false,
       message:"not Found User id",
     })
-  return;
   }
   }catch(error){
     if(error instanceof mongoose.Error){
-   next(createError(404,'Invalid search user Id')) 
-   return
+   next(createError(404, error.message)) 
   }
   next(error);
   }
@@ -112,4 +114,58 @@ const userId= await Villagemodel.findOne({_id:id});
   console.error('Error:', error.message)  
 }
 }
-module.exports={createUserController,findAllUser,findSingleUser,deleteUser,updateUser};
+const banUserById=async(req,res,next)=>{
+  try{
+    const {id}=req.params;
+    const userId= await Villagemodel.findOne({_id:id});
+    if(!userId){
+      res.json({success:false,message:"not match user id"})
+    }
+    //await findWithId(User,userId);
+    const updates={isAdmin:true};
+    const updateOptions= {new:true,runValidators:true, context:'query'};
+    const updateUser=await Villagemodel.findByIdAndUpdate(
+      userId,
+    updates,
+    updateOptions,
+      ).select('-password');
+      if(!updateUser){
+        throw createError(404, 'not Update user id');
+      }
+    return successResponse(res,{
+      statusCode:201,
+      success:true,
+      message:"successFull user Id ban.",
+    });
+  }catch(error){
+    return next(error);
+  }
+}
+
+const unBanUserById=async(req,res,next)=>{
+  try{
+    const {id}=req.params;
+    const userId= await Villagemodel.findOne({_id:id});
+    if(!userId){
+      res.json({success:false,message:"user ID not match"})
+    }
+    const updates={isAdmin:false};
+    const updateOptions= {new:true,runValidators:true, context:'query'};
+    const updateUser=await Villagemodel.findByIdAndUpdate(
+      userId,
+    updates,
+    updateOptions,
+      ).select('-password');
+      if(!updateUser){
+        throw createError(404, 'Not update successfull');
+      }
+    return successResponse(res,{
+      statusCode:201,
+      success:true,
+      message:"successFull user unBanUserById.",
+    });
+  }catch(error){
+    return next(error);
+  }
+}
+module.exports={createUserController,findAllUser,findSingleUser,deleteUser,updateUser,banUserById,unBanUserById};

@@ -2,11 +2,12 @@ const {accessTokenKey,refreshTokenKey}=require('/data/data/com.termux/files/home
 const {Villagemodel}=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/models/villageModel.js');
 const  jwt = require('jsonwebtoken');
 require('cookie-parser');
-const verifyUserMiddleware=async(req,res,next)=>{
+const verifyRefreshToken=async(req,res,next)=>{
   const refreshTokens=req.cookies.refreshToken;
   const accessToken=req.cookies.accessToken;
   if(!refreshTokens){
-    return res.json({success:false,message:"refreshToken valid login now"})
+   res.json({success:false,message:"refreshToken valid login now"})
+   return;
   }
   const decoded= await jwt.verify(refreshTokens,refreshTokenKey);
   if(!decoded){
@@ -15,12 +16,13 @@ const verifyUserMiddleware=async(req,res,next)=>{
   const email=decoded.email;
   const token= await jwt.sign({email},accessTokenKey,{expiresIn:'2m'})
   if(!token){
-   return  res.json({success:false,message:"Not Create accessToken"}) 
+    res.json({success:false,message:"Not Create accessToken"}) 
+ return;
   }
   res.cookie("accessToken",token,{maxAge:6000});
   next();
 }
-module.exports={verifyUserMiddleware};
+module.exports={verifyRefreshToken};
 /*const verifyUserMiddleware=(req,res,next)=>{
   const accessToken= req.cookies.accessToken;
   if(!accessToken){
