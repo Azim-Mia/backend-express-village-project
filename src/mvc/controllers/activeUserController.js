@@ -28,7 +28,8 @@ if(!image){
       console.log(err.message)
     }
   });
-  decoded.image=response.secure_url;
+  console.log(response);
+decoded.image={url:response.secure_url,public_id:response.public_id};
 }
     await Villagemodel.create(decoded);
     successResponse(res,{

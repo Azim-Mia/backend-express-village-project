@@ -10,6 +10,8 @@ const login=async(req,res,next)=>{
   try{
 const {email,password}=req.body;
 const user=await Villagemodel.findOne({email:email})
+const id=user._id;
+const image=user.image;
 if(!user){
   res.json({success:false,message:"User or Password not match.Try again now"})
   return;
@@ -19,7 +21,7 @@ const isPasswordMatch= await bcrypt.compare(password, user.password);
       res.json({success:false,message:"User or Password not match.Try again now"})
       return;
   };
-  const token=await makeAccessTokensService({email},accessTokenKey,"2m")
+  const token=await makeAccessTokensService({email,id,image},accessTokenKey,"2m")
   res.cookie("accessToken", token,{
   maxAge:2*60*1000,
     httpOnly:true,
@@ -27,11 +29,11 @@ const isPasswordMatch= await bcrypt.compare(password, user.password);
     sameSide:'none',
     date:new Date(),  
   })
-  const reFreshToken=await makeRefreshTokensService({email},refreshTokenKey,"20m")
+  const reFreshToken=await makeRefreshTokensService({email,id,image},refreshTokenKey,"20m")
   res.cookie("refreshToken", reFreshToken,{
   maxAge:30*24*60*60*1000,
     httpOnly:true,
-   // secure:true,
+    secure:true,
     sameSide:'none',
     date:new Date(),  
   })

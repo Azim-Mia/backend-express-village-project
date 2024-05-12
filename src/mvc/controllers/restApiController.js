@@ -1,5 +1,7 @@
 //this file create rest api...post,get,put,delete 
+const cloudinary=require('/data/data/com.termux/files/home/backend-express-village-project/config/cloudinary.js');
 require('dotenv').config();
+const mongoose =require('mongoose');
 const  jwt = require('jsonwebtoken');
 const createError=require('http-errors');
 const allowed_file_type =process.env.ALLOWED_FILE_TYPE || ["png", "jpeg","pdf"];
@@ -11,7 +13,7 @@ const {makeAccessTokensService}=require('/data/data/com.termux/files/home/backen
 const {Villagemodel}=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/models/villageModel.js');
 const createUserController=async(req,res,next)=>{
 const {name,fatherName,motherName,email,password,nid,birthId,postCode, address, village,image}=req.body;
-const payload={name, fatherName,motherName,email,password,nid,birthId,postCode,address,village,image};
+const payload={name, fatherName,motherName,email,password,nid,birthId,postCode,address,village,image:image.url};
 const findEmail= await Villagemodel.findOne({email:email});
 if(findEmail){
   res.json({success:false, message:"User Already Register"})
@@ -62,6 +64,15 @@ successResponse(res,{
 const deleteUser=async(req,res,next)=>{
   try{
     const {id}=req.params;
+    const usersFind = await Villagemodel.findById({_id:id});
+    if(!usersFind){
+      return res.json({success:false,message:"user was not found. Try again"})
+    }
+    const pub = await usersFind.image.public_id;
+  if(!pub){
+      return res.json({success:false,message:"public_id was not found. Try again"})
+    }  
+  await cloudinary.uploader.destroy(pub);
    const userId=await Villagemodel.findByIdAndDelete({_id:id, isAdmin:false})
     if(!userId) {
     res.json({
@@ -71,11 +82,11 @@ const deleteUser=async(req,res,next)=>{
   }
   }catch(error){
     if(error instanceof mongoose.Error){
-   next(createError(404, error.message)) 
+   throw createError(404, 'Not update successfull');
   }
   next(error);
   }
-  successResponse(res,{
+ return successResponse(res,{
     success:true,
     message:"User delete successFull"
   })
@@ -168,4 +179,4 @@ const unBanUserById=async(req,res,next)=>{
     return next(error);
   }
 }
-module.exports={createUserController,findAllUser,findSingleUser,deleteUser,updateUser,banUserById,unBanUserById};
+module.exports={createUserController,findAllUser,findSingleUser,deleteUser,updateUser,banUserById,unBanUserById,updateUser};

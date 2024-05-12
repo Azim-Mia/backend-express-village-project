@@ -1,4 +1,5 @@
 const {Schema,model}=require('mongoose');
+const { uuid } = require('uuidv4');
 const bcrypt=require('bcryptjs')
 const villageScheme=new Schema({
    name:{
@@ -68,11 +69,8 @@ village:{
   lowercase:true,
   required:[true, "name is not Empty"],
 },
-image:{
-  type:String,
-    required:[true, "name is not Empty"],
-},
-  isAdmin:{
+image:{url:String,public_id:String},
+isAdmin:{
    type:Boolean,
    default:false,
   },

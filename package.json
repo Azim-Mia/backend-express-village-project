@@ -13,6 +13,7 @@
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
+    "bkash-payment": "^3.0.2",
     "body-parser": "^1.20.2",
     "cloudinary": "^2.0.3",
     "cookie-parser": "^1.4.6",
@@ -37,6 +38,8 @@
     "Router": "^2.1.0",
     "runvalidator": "^1.0.0",
     "slugify": "^1.6.6",
+    "sslcommerz-lts": "^1.1.0",
+    "uuidv4": "^6.2.13",
     "validator": "^13.11.0"
   },
   "devDependencies": {
