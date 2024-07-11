@@ -10,12 +10,12 @@ const login=async(req,res,next)=>{
   try{
 const {email,password}=req.body;
 const user=await Villagemodel.findOne({email:email})
-const id=user._id;
-const image=user.image;
 if(!user){
   res.json({success:false,message:"User or Password not match.Try again now"})
   return;
 }
+const id=user._id;
+const image=user.image;
 const isPasswordMatch= await bcrypt.compare(password, user.password);
   if(!isPasswordMatch){
       res.json({success:false,message:"User or Password not match.Try again now"})

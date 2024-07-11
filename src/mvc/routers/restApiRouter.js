@@ -12,7 +12,7 @@ const {searchUser}=require('../controllers/searchUser.js')
 const {activeUserController}=require('../controllers/activeUserController.js')
 const express=require('express')
 const restApiRouter=express.Router();
-restApiRouter.get('/read',findAllUser);
+restApiRouter.get('/read',verifyRefreshToken,findAllUser);
 restApiRouter.get('/readSingle/:id',findSingleUser);
 restApiRouter.post('/create',upload.single("image"),validatorUserRegistation,runValidation,createUserController );
 restApiRouter.post('/active',upload.single("image"),activeUserController );

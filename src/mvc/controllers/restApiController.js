@@ -94,7 +94,8 @@ const deleteUser=async(req,res,next)=>{
 const updateUser=async(req,res,next)=>{
   try{
 const {id}=req.params;
-const userId= await Villagemodel.findOne({_id:id});
+const image=req.file.image
+const userId= await Villagemodel.findById({_id:id});
     if(!userId) {
     res.json({
       success:false,
@@ -102,9 +103,17 @@ const userId= await Villagemodel.findOne({_id:id});
     })
   return;
   }
+  const response = await cloudinary.uploader.upload(image,{
+    folder:'ecommerce_azim',
+  },function(result,err){
+    if(result){
+      console.log(result)
+    }else{
+      console.log(err.message);
+    }
+  });
   const updateOptions= { new:true, runValidators:true, context:'query'};
   const {name,address}=req.body;
-  const image=req.file.image
   let updates={};
   for(let key in req.body){
   if(['name','address','image'].includes(key)){

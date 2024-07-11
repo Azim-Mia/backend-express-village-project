@@ -9,29 +9,38 @@ const profileUpdate=async(req,res,next)=>{
 try{
  const refreshToken=req.cookies.refreshToken;
 const decoded= await jwt.verify(refreshToken,refreshTokenKey);
-const {name,address}= req.body;
-const image=req.file;
-if(!image){
+const userId=decoded.id;
+const findUser = await Villagemodel.findById({_id:userId})
+const deleteSuccessResult = await cloudinary({})
+ 
+if(!deleteSuccessResult){
+  console.log("image is not delete")
+}
+const {name,address,image}= req.body;
+const imageUrl=image.url;
+if(!imageUrl){
   res.json({success:false,message:"not found image"})
-}else{
-  const response = await cloudinary.uploader.upload(image,{
+}
+  const response = await cloudinary.uploader.upload(imageUrl,{
     folder:'ecommerce_azim',
   },function(result,err){
     if(result){
-      console.log(result)
+      console.log("Result Console:"+result)
     }
     if(err){
-      console.log(err.message)
+      console.log("Error or not Error Console:"+err.message)
     }
   });
-  decoded.image=response.secure_url;
-}
 //id generate from cookie
-const userId=decoded.id;
+const deleteUrl=findUser.image.public_id;
+console.log(deleteUrl);
 const updateOptions= { new:true, runValidators:true, context:'query'};
 let updates={};
+if(imageUrl){
+  updates.image={url:response.secure_url,public_id:response.public_id};
+}
 for(let key in req.body){
-  if(['name','image','address'].includes(key)){
+  if(['name','address'].includes(key)){
       updates[key]=req.body[key];
     }
 }

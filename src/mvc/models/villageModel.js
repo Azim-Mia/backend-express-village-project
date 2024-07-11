@@ -69,7 +69,10 @@ village:{
   lowercase:true,
   required:[true, "name is not Empty"],
 },
-image:{url:String,public_id:String},
+image:{
+  url:String,
+  public_id:String
+},
 isAdmin:{
    type:Boolean,
    default:false,

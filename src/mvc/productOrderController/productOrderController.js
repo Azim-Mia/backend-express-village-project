@@ -1,6 +1,6 @@
 const { uuid } = require('uuidv4');
 const {errorResponse,successResponse}=require("/data/data/com.termux/files/home/backend-express-village-project/serviceProvider/errorAndSuccessHandle.js");
-const Orderproduct=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/models/paymentModel.js')
+const Orderproduct=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/productOrderModel/productOrderModel.js');
 const Product=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/productModels/productModel.js')
 const {Villagemodel}=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/models/villageModel.js');
 require('dotenv').config();
@@ -18,8 +18,8 @@ const {id,customername,address,phone,present} = req.body;
         tran_id:tran_id, // use unique tran_id for each api call
         success_url: `http://localhost:3001/payment/success/${tran_id}`,
         fail_url: `http://localhost:3001/payment/fail/${tran_id}`,
-        cancel_url: 'http://localhost:3030/cancel',
-        ipn_url: 'http://localhost:3030/ipn',
+        cancel_url: `http://localhost:3001/payment/cancel/${tran_id}`,
+        ipn_url: 'http://localhost:3001/ipn',
         shipping_method: 'Courier',
         product_name: 'Computer.',
         product_category: 'Electronic',
@@ -49,9 +49,14 @@ const {id,customername,address,phone,present} = req.body;
     .then(apiResponse => {
         // Redirect the user to payment gateway
   let GatewayPageURL = apiResponse.GatewayPageURL;
-        res.send({url:GatewayPageURL})
-   const aa= Orderproduct.insertMany({name:"azim mia"})
- console.log(aa);
+        res.send({url:GatewayPageURL});
+ const finalOrder ={
+   productInfo:data,
+   name:data.product_name,
+   tranjectionId:tran_id,
+ }    
+   const result= Orderproduct.insertMany(finalOrder);
+ console.log(result);
     }).catch((err)=>{
       console.log(err.message)
     })
@@ -59,10 +64,24 @@ const {id,customername,address,phone,present} = req.body;
 
 const paymentSuccessController=async(req,res,next)=>{
   const trans=req.params.tranId;
-  res.redirect(`http://localhost:3000/payment/success/${trans}`)
+  const orderConfirm=await Orderproduct.updateOne({tranjectionId:trans},{
+    $set:{
+      PaidStatus:true,
+    }
+  })
+  if(orderConfirm.modifiedCount>0){
+    res.redirect(`http://localhost:3000/payment/success/${trans}`);
+  }
 }
-const failPayment=(req,res,next)=>{
+const failPayment=async(req,res,next)=>{
   const trans=req.params.tranId;
-  res.redirect(`http://localhost:3000/payment/fail/${trans}`)
+ const failOrder= await Orderproduct.deleteOne({tranjectionId:trans});
+ if(failOrder.deletedCount){
+   res.redirect(`http://localhost:3000/payment/fail/${trans}`)
+ }
 }
-module.exports={paymentController,paymentSuccessController,failPayment};
+const cancelPayment=(req,res,next)=>{
+  const trans=req.params.tranId;
+  res.redirect(`http://localhost:3000/payment/cancel/${trans}`)
+}
+module.exports={paymentController,paymentSuccessController,failPayment,cancelPayment};

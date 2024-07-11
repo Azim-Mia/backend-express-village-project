@@ -1,6 +1,6 @@
 const uploadImageRouter =require('./src/mvc/routers/uploadImage.js');
 //custom require needs file
-const paymentRouter=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/routers/authBkashPayment.js')
+const paymentRouter=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/productOrderRouter/productOrderRouter.js');
 const productRouter=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/productRouters/productRouter.js')
 const {restApiRouter}=require('./src/mvc/routers/restApiRouter.js')
 const authRouter=require('./src/mvc/routers/authRouter.js')
