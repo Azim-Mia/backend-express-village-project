@@ -1,12 +1,12 @@
 {
-      "homepage":"https://azim-mia.github.io/read",
+      "homepage":"https://azim-mia.github.io/backend-express-village-project",
   "name": "backend-express-village-project",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-      "predeploy":"npm run build",
+     "predeploy":"npm run build",
    "deploy":"gh-pages -d build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
