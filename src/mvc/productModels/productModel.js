@@ -1,6 +1,6 @@
 const {Schema,model}=require('mongoose');
 const productSchema= new Schema({
-  name:{
+  productName:{
    type:String,
    trim:true,
  required:[true, "name is required"],
@@ -66,7 +66,15 @@ sold:{
  model:{
    type:String,
    trim:true,
- }
+ },
+ isAdmin:{
+   type:Boolean,
+   default:false,
+  },
+  isBaned:{
+    type:Boolean,
+    default:false,
+  },
 },{timestamps:true});
 const Product=new model('product', productSchema);
 module.exports=Product;

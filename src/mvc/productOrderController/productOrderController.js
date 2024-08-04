@@ -9,8 +9,7 @@ const store_id = process.env.STORE_ID;
 const store_passwd = process.env.STORE_PASSWORD;
 const is_live = false //true for live, false for sandbox
 const paymentController=async(req,res,next)=>{
-const {id,customername,address,phone,present} = req.body;
-  const findone= await Villagemodel.findOne({_id:id});
+const {id,customername,address,phone,present,price,slug} = req.body;
   const tran_id=uuid();
    const data = {
         total_amount:900,
@@ -30,24 +29,24 @@ const {id,customername,address,phone,present} = req.body;
         cus_add2: present,
         cus_city: 'Dhaka',
         cus_state: 'Dhaka',
-        cus_postcode: findone.postCode,
+        cus_postcode:"postCode",
         cus_country: 'Bangladesh',
         cus_phone:phone,
         cus_fax: '01711111111',
         ship_name: 'Customer Name',
-        ship_add1: findone.address,
+        ship_add1: "address",
         ship_add2: address,
         ship_city: 'Dhaka',
         ship_state: 'Dhaka',
         ship_postcode: 1000,
         ship_country: 'Bangladesh',
     };
-    console.log(data);
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live)
    // console.log(sslcz);
     sslcz.init(data)
     .then(apiResponse => {
         // Redirect the user to payment gateway
+        console.log(apiResponse);
   let GatewayPageURL = apiResponse.GatewayPageURL;
         res.send({url:GatewayPageURL});
  const finalOrder ={

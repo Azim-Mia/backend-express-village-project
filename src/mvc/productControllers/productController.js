@@ -5,16 +5,13 @@ const Product=require('/data/data/com.termux/files/home/backend-express-village-
 const slugify = require('slugify')
 const createProductController=async(req,res,next)=>{
   try{
-  const {name,price,description,image,quantity,shipping,sold,category,rating,model}=req.body;
- /* let images={};
-  const modelProduct=await Product.findOne({name:name})
-  if(modelProduct){
-    res.json({success:false,message:"product already exist"})
-  }
-if(!image){
+  const {productName,price,description,image,quantity,shipping,sold,category,rating,model}=req.body;
+  const url= "/data/data/com.termux/files/home/storage/dcim/camera/" + image;
+  console.log(url)
+if(!url){
   res.json({success:false,message:"not found image"})
-}else{
-  const response = await cloudinary.uploader.upload(image,{
+}
+  const response = await cloudinary.uploader.upload(url,{
     folder:'ecommerce_azim',
   },function(result,err){
     if(result){
@@ -24,21 +21,20 @@ if(!image){
       console.log(err.message)
     }
   });
-images=response.secure_url;
-}*/
-  const create = new Product({
-    name:name,
-    slug:slugify(name),
+const images=response.secure_url;
+  const productData = new Product({
+    productName:productName,
+    slug:slugify(productName),
     price:price,
     description:description,
-    image:image,
+    image:images,
     quantity:quantity,
     shipping:shipping,
     sold:sold,
     category:category,
     rating:rating
   })
-  const result=await create.save();
+  const result=await productData.save();
 return successResponse(res,{
   success:true,
   message:"successfull",
@@ -50,7 +46,7 @@ return successResponse(res,{
 }
 
 const readProductController=async(req,res,next)=>{
-  const findProduct=await Product.find()
+  const findProduct=await Product.find();
   if(!findProduct){
     res.json({success:false,message:"product not found"})
   }
@@ -82,7 +78,7 @@ const readOneProductController=async(req,res,next)=>{
 }
 const updateProductController=async(req,res,next)=>{
   const {id}=req.params
-  const {name,model,image,} =req.body;
+  const {productName,model,image,} =req.body;
   const productID=await Product.findOne({_id:id})
   if(!productID){
     res.json({success:false,message:"Not found user ID"})
@@ -90,7 +86,7 @@ const updateProductController=async(req,res,next)=>{
   let updates={};
   const updateOptions= {new:true,runValidators:true, context:'query'};
   for(let key in req.body){
-    if(['name', 'sold', 'image', 'rating', 'price','slug','category'].includes(key)){
+    if(['productName', 'sold', 'image', 'rating', 'price','slug','category'].includes(key)){
       updates[key]=req.body[key];
     }
   }
@@ -101,23 +97,19 @@ const updateProductController=async(req,res,next)=>{
   })
 }
 const deleteProductController=async(req,res,next)=>{
+try{
 const {id}=req.params;
-  /* const userAdmin=Villagemodel.findOne({_id:id})
-    if(userAdmin.isAdmin=true){
-res.json({
-      success:false,
-      message:"User is Admin Not delete",
-    })
-    return;
-  }*/
  const deleteProduct=await Product.findByIdAndDelete({_id:id})
-if(!deleteProduct){
+if(id !== deleteProduct){
 res.json({success:false,message:"product not found"})  
 }
 successResponse(res,{
   success:true,
   message:"delete user successfull",
 })
+}catch(error){
+  next(createError(error.message))
+}
 }
 
 module.exports={createProductController,readProductController,readOneProductController,updateProductController,deleteProductController}

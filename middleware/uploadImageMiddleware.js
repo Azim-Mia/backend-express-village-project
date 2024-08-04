@@ -3,7 +3,7 @@ require('dotenv').config()
 const path=require('path');
 const createError=require('http-errors');
 const max_file_size=Number(process.env.MAX_FILE_SIZE) || 2097152;
-const allowed_file_type =process.env.ALLOWED_FILE_TYPE || ["png", "jpeg","pdf"];
+const allowed_file_type =process.env.ALLOWED_FILE_TYPE || ["png", "jpeg","pdf","jpg"];
 const {storeImage}=require('/data/data/com.termux/files/home/backend-express-village-project/secret.js');
 console.log(storeImage);
 const storage = multer.diskStorage({

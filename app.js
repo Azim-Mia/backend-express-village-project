@@ -2,6 +2,7 @@ const uploadImageRouter =require('./src/mvc/routers/uploadImage.js');
 //custom require needs file
 const paymentRouter=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/productOrderRouter/productOrderRouter.js');
 const productRouter=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/productRouters/productRouter.js')
+const {productSearchRouter} =require("/data/data/com.termux/files/home/backend-express-village-project/src/mvc/productSearchRouter/productSearch.js");
 const {restApiRouter}=require('./src/mvc/routers/restApiRouter.js')
 const authRouter=require('./src/mvc/routers/authRouter.js')
 const categoryRouter=require('/data/data/com.termux/files/home/backend-express-village-project/src/mvc/categoriRouters/categoriRouter.js');
@@ -23,7 +24,7 @@ app.use(cookieParser());
 app.use(express.static(__dirname + "/backend-express-village-project/src"))
 app.use(express.static("/public"));
 app.use(cors({
-  origin:["http://localhost:3000","http://localhost:8158"],
+  origin:["http://localhost:3000","http://localhost:8158","http://localhost:3001"],
 methot:["PUT","POST","GET"],
 credentials:true,
 }));
@@ -32,7 +33,8 @@ app.use(morgan());
 app.use('/',restApiRouter);
 app.use('/', uploadImageRouter)
 app.use('/',authRouter);
-app.use('/product',productRouter)
+app.use('/products',productRouter)
+app.use('/',productSearchRouter);
 app.use('/category',categoryRouter)
 app.use('/',paymentRouter)
 //all error handle position

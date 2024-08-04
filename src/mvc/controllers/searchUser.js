@@ -6,7 +6,7 @@ const searchUser=async(req,res,next)=>{
   try{
 const search=req.query.search || "";
    const page=Number(req.query.page) || 1;
-   const limit=Number(req.query.limit) || 2;
+   const limit=Number(req.query.limit) || 5;
    
     const searchRegExp=new RegExp('.*' + search + '.*', 'i');
     const filter={
@@ -33,7 +33,8 @@ const search=req.query.search || "";
     correntPage:page,
     previousePage:page-1>0 ? page-1:null,
     nextPage:page+1 < Math.ceil(count/limit) ? page + 1:null,
-    },
+  totalProducts:count
+   },
  },
   });
 }catch(error){

@@ -1,4 +1,3 @@
-
 const upload=require('/data/data/com.termux/files/home/backend-express-village-project/middleware/uploadImageMiddleware.js')
 const {validatorUserRegistation}=require('/data/data/com.termux/files/home/backend-express-village-project/middleware/validators.js');
 const {runValidation}=require('/data/data/com.termux/files/home/backend-express-village-project/middleware/runValidation.js');
@@ -12,7 +11,7 @@ const {searchUser}=require('../controllers/searchUser.js')
 const {activeUserController}=require('../controllers/activeUserController.js')
 const express=require('express')
 const restApiRouter=express.Router();
-restApiRouter.get('/read',verifyRefreshToken,findAllUser);
+restApiRouter.get('/read',findAllUser);
 restApiRouter.get('/readSingle/:id',findSingleUser);
 restApiRouter.post('/create',upload.single("image"),validatorUserRegistation,runValidation,createUserController );
 restApiRouter.post('/active',upload.single("image"),activeUserController );
@@ -20,6 +19,6 @@ restApiRouter.delete('/delete/:id',deleteUser)
 restApiRouter.put('/update/:id',upload.single("image"),updateUser)
 restApiRouter.put('/update_profile',upload.single("image"),profileUpdate)
 restApiRouter.put('/baned/:id',banUserById);
-restApiRouter.put('/unbaned/:id',unBanUserById)
-restApiRouter.get('/search',searchUser);
+restApiRouter.put('/unbaned/:id',unBanUserById);
+restApiRouter.get('/users',searchUser);
 module.exports={restApiRouter};
