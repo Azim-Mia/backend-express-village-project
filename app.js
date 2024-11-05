@@ -24,8 +24,8 @@ app.use(cookieParser());
 app.use(express.static(__dirname + "/backend-express-village-project/src"))
 app.use(express.static("/public"));
 app.use(cors({
-  origin:["http://localhost:3000","http://localhost:8158","http://localhost:3001"],
-methot:["PUT","POST","GET"],
+  origin:["http://localhost:3000","http://localhost:8158","http://localhost:3001","http://localhost:3002"],
+methot:["PUT","POST","GET","UPDATE"],
 credentials:true,
 }));
 app.use(morgan());
